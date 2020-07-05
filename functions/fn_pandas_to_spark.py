@@ -1,6 +1,6 @@
 from pyspark.sql.types import *
 
-def equivalent_type(datatype):
+def fn_equivalent_type(datatype):
   """
   Choose the PySpark datatype that is equivalent to Pandas datatype.
   
@@ -18,7 +18,7 @@ def equivalent_type(datatype):
   }
   return choices.get(datatype, StringType())
 
-def define_structure(string, format_type):
+def fn_define_structure(string, format_type):
   """
   Receive a column name and Pandas datatype and return the a Struct datatype 
   with the column name, the PySpark datatype and the nullable parameter with 
@@ -32,11 +32,11 @@ def define_structure(string, format_type):
     The PySpark struct datatype with the column name and a datatype with 
     PySpark correspondent value.
   """
-  try: typo = equivalent_type(format_type)
+  try: typo = fn_equivalent_type(format_type)
   except: typo = StringType()
   return StructField(string, typo)
 
-def pandas_to_spark(pandas_df):
+def fn_pandas_to_spark(pandas_df):
   """
   Recive a pandas dataframe and return a schema to be used to create a 
   PySpark dataframe.
@@ -52,7 +52,7 @@ def pandas_to_spark(pandas_df):
   types = list(pandas_df.dtypes)
   struct_list = []
   for column, typo in zip(columns, types): 
-    struct_list.append(define_structure(column, str(typo)))
+    struct_list.append(fn_define_structure(column, str(typo)))
     p_schema = StructType(struct_list)
     spark_df = spark.createDataFrame(pandas_df, p_schema)
   return spark_df

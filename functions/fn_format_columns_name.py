@@ -2,7 +2,7 @@ import databricks.koalas as ks
 import pandas as pd
 import re
 
-def get_column_names (dataframe):
+def fn_get_column_names (dataframe):
   """
   Receive a dataframe and return a list with all dataframe columns name.
   
@@ -16,7 +16,7 @@ def get_column_names (dataframe):
   columns_list = dataframe.columns
   return columns_list
 
-def format_columns_name (dataframe):
+def fn_format_columns_name (dataframe):
   """
   Receive a dataframe (PySpark, Koalas or Pandas) and return another dataframe 
   with the same type of the input one with formated columns name.
@@ -27,7 +27,7 @@ def format_columns_name (dataframe):
   Returns:
     A dataframe with formated columns name.
   """
-  column_names = get_column_names(dataframe)
+  column_names = fn_get_column_names(dataframe)
   special_characters = [['[áãàâäåæ]','[éêèęėēë]','[íîìïįī]','[óõôòöœøō]','[úüùûū]','[ç]','[ñ]','[/\-\n\r.,]','[(){};:º*&^%$#@!+=]'],
                         ['a','e','i','o','u','c','n','_','']]
   amount_of_types = len(special_characters[0])
